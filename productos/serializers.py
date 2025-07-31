@@ -37,39 +37,3 @@ class ProductoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("El nombre debe tener al menos 2 caracteres.")
         
         return value.strip()
-    
-    def to_representation(self, instance):
-        """Personalizar la representación del objeto"""
-        data = super().to_representation(instance)
-        
-        # Formatear el precio para mostrar con símbolo de peso
-        if data.get('precio'):
-            data['precio_formateado'] = f"${data['precio']} MXN"
-        
-        return data
-
-
-class ProductoCreateSerializer(ProductoSerializer):
-    """
-    Serializador específico para la creación de productos.
-    Excluye campos que no son necesarios en la creación.
-    """
-    
-    class Meta(ProductoSerializer.Meta):
-        fields = ['nombre', 'descripcion', 'precio', 'disponible']
-
-
-class ProductoListSerializer(serializers.ModelSerializer):
-    """
-    Serializador ligero para listar productos.
-    Solo incluye los campos esenciales para mejorar performance.
-    """
-    precio_formateado = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = Producto
-        fields = ['id', 'nombre', 'precio', 'precio_formateado', 'disponible']
-    
-    def get_precio_formateado(self, obj):
-        """Formatear el precio con símbolo de peso"""
-        return f"${obj.precio} MXN"

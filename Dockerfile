@@ -9,28 +9,18 @@ ENV DJANGO_SETTINGS_MODULE=gestion_productos.settings
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Instalar dependencias del sistema
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        build-essential \
-        libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copiar requirements y instalar dependencias Python
+# Copiar requirements e instalar dependencias
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Crear directorio para la base de datos con permisos
+RUN mkdir -p /app/data && chmod 755 /app/data
 
 # Copiar el código de la aplicación
 COPY . /app/
 
-# Crear directorio para archivos estáticos
-RUN mkdir -p /app/staticfiles
-
-# Ejecutar migraciones y colectar archivos estáticos
-RUN python manage.py collectstatic --noinput
-
-# Exponer puerto 8000
+# Exponer el puerto
 EXPOSE 8000
 
-# Comando por defecto
+# Comando para ejecutar la aplicación
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

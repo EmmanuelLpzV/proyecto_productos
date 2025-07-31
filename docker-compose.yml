@@ -1,16 +1,13 @@
-version: '3.8'
-
 services:
   web:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
-      - ./db.sqlite3:/app/db.sqlite3
     environment:
       - DJANGO_SETTINGS_MODULE=gestion_productos.settings
       - DEBUG=1
+    volumes:
+      - db_data:/app/data
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
