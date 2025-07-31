@@ -132,6 +132,34 @@ Para detener los contenedores:
 docker-compose down
 ```
 
+- **Volumen persistente**: Los datos se almacenan en un volumen Docker (`db_data`)
+- **Permisos correctos**: Configuración adecuada de permisos en el contenedor
+- **Directorio dedicado**: Base de datos almacenada en `/app/data/db.sqlite3`
+- **Migraciones automáticas**: Se ejecutan automáticamente al iniciar
+
+**Comandos útiles:**
+```bash
+# Ver estado de contenedores
+docker-compose ps
+
+# Ver logs del servicio
+docker-compose logs web
+
+# Reiniciar servicios (mantiene los datos)
+docker-compose restart
+
+# Verificar que la API funciona
+curl -X GET http://localhost:8000/api/productos/
+
+# Crear producto de prueba
+curl -X POST http://localhost:8000/api/productos/ \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Test Product", "precio": 29.99}'
+```
+
+**Persistencia de datos:**
+Los datos sobreviven a reinicios y reconstrucciones del contenedor gracias al volumen persistente configurado.
+
 ## 📖 Documentación de la API
 
 Una vez que el servidor esté ejecutándose, puedes acceder a la documentación interactiva:
@@ -300,4 +328,3 @@ ports:
 # En Linux/macOS, asegurar permisos
 sudo chown -R $USER:$USER .
 ```
-
