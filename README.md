@@ -301,14 +301,3 @@ ports:
 sudo chown -R $USER:$USER .
 ```
 
-## 📋 TODO / Mejoras Futuras
-
-- [ ] Autenticación y autorización (JWT)
-- [ ] Paginación avanzada
-- [ ] Caché con Redis
-- [ ] Subida de imágenes de productos
-- [ ] Categorías de productos
-- [ ] Webhooks para notificaciones
-- [ ] Métricas y monitoreo
-- [ ] CI/CD con GitHub Actions
-
